@@ -1,0 +1,38 @@
+body {
+  position: relative;
+  font-family: 'Open Sans', sans-serif;
+  /*padding-top: 50px; */
+  /*padding-bottom: 100px;*/
+}
+.important {
+  color: #333;
+}
+
+.page-topping{
+	padding-top: 5em;
+}
+
+.subpages-tunier{
+  text-align: center;
+  min-height:100vh;
+  width: auto;
+  max-width: 100vw;
+  padding-left: 2em;
+  padding-right: 2em;
+  padding-top: 2em;
+}
+
+.inpageLink{
+  text-decoration: none;
+  color: #333;
+}
+.inpageLink:hover{
+  text-decoration: none;
+  color: #333;
+}
+
+.inputpanel{
+  max-width: 80vw;
+  margin-right: auto;
+  margin-left: auto;
+}

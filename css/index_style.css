@@ -1,0 +1,38 @@
+body {
+  text-align:center;
+}
+.important {
+  color: #333;
+}
+
+.navbar-custom .nav li.active a {
+    outline: 0;
+    background: none;
+    color: #ffffff !important;
+    border-bottom: none !important;
+}
+
+.main {
+  height:100vh;
+  width: auto;
+  padding-top: 50px;
+}
+
+.unterseite {
+  height:100vh;
+  width: auto;
+  padding-top: 50px;
+  
+}
+.featurette-divider {
+  margin: 20px 0; /* Space out the Bootstrap <hr> more */
+}
+#maps {
+   /* background: #333; */
+}
+.link > a,
+.link > a:hover,
+.link > a:focus{
+  color: #333;
+  text-decoration: underline;
+}
