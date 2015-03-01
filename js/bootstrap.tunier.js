@@ -1,6 +1,7 @@
 var spielerAnzahl;
 var playercount;
 var playerTableCode;
+var playerDataforTree = {player:[]};		//solution and reason: "value",  http://stackoverflow.com/questions/4538269/adding-removing-items-from-json-data-with-jquery
 function calculateProgress (valueProgressAdd){
 //	console.log("bin in der function "+ valueProgressAdd+ " "+ valueProgressOld);
 	valueProgressOld = $("#progressTunier").attr("aria-valuenow");
@@ -38,8 +39,11 @@ function fillSinglePlayerlist(name,vorname,verein){
     	tableClass ="active"
     }
     playerTableCode ="<tr class='"+tableClass+"'><th scope='row'>"+playercount+"</th><td>"+name+"</td><td>"+vorname+"</td><td>"+verein+"</td></tr>"
-
     $("#playerTable tbody").append(playerTableCode);
+
+    playerDataforTree.player.push(
+    	{id: playercount, name: name, vorname: vorname, verein: verein}
+	);
     
 };
 
@@ -145,7 +149,10 @@ $( document ).ready(function() {
     	};
     	
    		//console.log(nameEinzel +"  "+vornameEinzel+" "+vereinEinzel);
-   	})
+   	});
+   	$("#getJson").click(function(){
+   		console.log(playerDataforTree);
+   	});
 
 
 });
