@@ -32,16 +32,9 @@
           <a class="navbar-brand" href="#">Home</a>
           -->
         </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <!--
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#einstellungen">Einstellungen</a></li>
-            <li><a href="#spieler">Spieler</a></li>
-            <li><a href="#tunierbaum">Tunierbaum</a></li>
-          </ul>
-          -->  
-        </div><!--/.nav-collapse -->
+      </div>
+     <!--/.nav-collapse -->
+
       </div>
     </nav>
       <!-- Main component for a primary marketing message or call to action -->
@@ -52,10 +45,13 @@
     </div>
     <div class="container-fluid">
       <div role="tabpanel" class="inputpanel">
+
+
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
           <li role="presentation" class="active"><a href="#einstellungen" aria-controls="einstellungen" role="tab" data-toggle="tab">Settings</a></li>
-          <li role="presentation"><a href="#spieler" aria-controls="spieler" role="tab" data-toggle="tab">Spieler</a></li>
+          <li role="presentation"><a href="#spieler" aria-controls="spieler" role="tab" data-toggle="tab">Player</a></li>
+          <li role="presentation"><a href="#matches" aria-controls="matches" role="tab" data-toggle="tab">Matches</a></li>
         </ul>
         <!-- Tab panes -->
         <div class="tab-content">
@@ -111,7 +107,7 @@
                           <input type="radio" name="optionsTunierart" value="doppelko" id="doppelko">Doppel K.O.
                         </label>
                         <label class="radio-inline">
-                          <input type="radio" name="optionsTunierart" value="schweitzer"id="schweitzer">Scheitzer System
+                          <input type="radio" name="optionsTunierart" value="schweitzer" id="schweitzer">Scheitzer System
                         </label>
                         <label class="radio-inline">
                           <input type="radio" name="optionsTunierart" value="liga" id="liga">Liga
@@ -123,7 +119,7 @@
                     </div>
                   </fieldset>
                   <fieldset class="col-md-3" id="fourthAnzahl">
-                    <h3>4. Spieler Anzahl<h3>
+                    <h3>4. Spieler Anzahl</h3>
                     <input type="text" class="form-control" id="anzahlSpielerField" placeholder="Anzahl">
                   </fieldset>
                 </div> 
@@ -134,7 +130,7 @@
 <!-- ============================= Player Tab ======================= -->          
           <div role="tabpanel" class="tab-pane" id="spieler">
             <div class="page-header">
-              <h1>Settings</h1>
+              <h1>Player</h1>
               <div class="progress">
                 <div class="progress-bar" id="progressSpieler" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
                   0 Player
@@ -142,8 +138,8 @@
               </div>
               <p id="tunierOptions"></p>
             </div>
-
-            <form class="form-inline" id="singleGame">
+          <fieldset id="singleGame">
+            <form class="form-inline" id="">
               <div class="form-group">
                 <label for="nameEinzel">Name</label>
                 <input type="text" class="form-control" id="nameEinzel" placeholder="....">
@@ -158,8 +154,9 @@
               </div>
               <button type="button" class="btn btn-default" id="addeinzelPlayer">Add Player</button>
             </form>
-
-            <form class="form-inline" id="doubleGame">
+          </fieldset>
+          <fieldset id="doubleGame">
+            <form class="form-inline" id="">
               <div class="form-group">
                 <label for="nameDoppelEins">Name</label>
                 <input type="text" class="form-control" id="nameDoppelEins" placeholder="....">
@@ -186,8 +183,9 @@
               </div>
               <button type="button" class="btn btn-default" id="addDoppelPlayer">Add Team</button>
             </form>
-
-            <form class="form-inline" id="mixedGame">
+          </fieldset>
+          <fieldset id="mixedGame">
+            <form class="form-inline" id="">
               <div class="form-group">
                 <label for="nameMixedMann">Name</label>
                 <input type="text" class="form-control" id="nameMixedMann" placeholder="....">
@@ -214,6 +212,7 @@
               </div>
               <button type="button" class="btn btn-default" id="addMixedPlayer">Add Team</button>
             </form>
+          </fieldset>
             <br />
             <div class="table-responsive" >
               <table class="table" id="playerTable">
@@ -229,13 +228,27 @@
 
                 </tbody>
               </table>
-              <button type="button" class="btn btn-alert" id="getJson">control JSON</button>
+              <button type="button" class="btn btn-alert" id="startTournament">start Tournament</button>
             </div> 
-  
+          </div>
+<!-- =========================== matches ============================= -->         
+          <div role="tabpanel" class="tab-pane" id="matches">
+            <div class="page-header">
+              <h1>Matches First Round</h1>
+<!--
+              <div class="progress">
+                <div class="progress-bar" id="progressTunier" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                  <span class="sr-only">60% Complete</span>
+                </div>
+              </div>
+            </div>
+-->
+              <div id="tournamentMatches">
 
-
+              </div>
+            </div>
+          </div>
         </div>
-
       </div>
 <!--      
       <div class="subpages-tunier" id="einstellungen">

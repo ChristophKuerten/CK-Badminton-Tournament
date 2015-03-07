@@ -2,6 +2,7 @@ var spielerAnzahl;
 var playercount;
 var playerTableCode;
 var playerDataforTree = {player:[]};		//solution and reason: "value",  http://stackoverflow.com/questions/4538269/adding-removing-items-from-json-data-with-jquery
+var tournamentTreefirstroundcount;
 function calculateProgress (valueProgressAdd){
 //	console.log("bin in der function "+ valueProgressAdd+ " "+ valueProgressOld);
 	valueProgressOld = $("#progressTunier").attr("aria-valuenow");
@@ -37,9 +38,10 @@ function fillSinglePlayerlist(name,vorname,verein){
 	//console.log(playerTableCode);
 	if (playercount%2 == 0){
     	tableClass ="active"
-    }
+    };
     playerTableCode ="<tr class='"+tableClass+"'><th scope='row'>"+playercount+"</th><td>"+name+"</td><td>"+vorname+"</td><td>"+verein+"</td></tr>"
     $("#playerTable tbody").append(playerTableCode);
+
 
     playerDataforTree.player.push(
     	{id: playercount, name: name, vorname: vorname, verein: verein}
@@ -49,7 +51,62 @@ function fillSinglePlayerlist(name,vorname,verein){
 
 function activaTab(tab){
     $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+};
 
+function startTournament(){
+	startedplayer = (playerDataforTree.player.length());
+	var setzliste = [];
+	var setzlisterLaenge = setzliste.length;
+	var z = 0;
+	while (i < startedplayer){
+		var player= Math.floor(Math.random() * (startedplayer - 0 + 1));
+		for (z < setzlisterLaenge){
+			if (setzliste[z] == player){
+				z = 9999;
+			}else{
+				z++;
+			}
+		};
+		if (z == 9999){
+			i++;
+		}else{
+			setzliste.push(player);
+			i++;
+		};
+		setzlisterLaenge= setzlisterLaenge +1;
+	};
+	console.log(setzliste);
+	loopplayer = startedplayer + 1;
+	var i = 0;
+	tournamentTreefirstroundcount = Math.round(startedplayer/2);
+	if (playercount%2 == 0){
+		console.log("gerade SpielerAnzalh"+startedplayer);
+		while (i < startedplayer){
+			var playerofarray = (playerDataforTree.player[i]);
+
+
+
+			console.log (playerofarray.name);
+			i++;
+		};
+	}else {
+		console.log("ungerade SpielerAnzalh"+startedplayer);
+		while (i < startedplayer){
+			var playerofarray = (playerDataforTree.player[i]);
+
+
+
+			console.log (playerofarray.name);
+			i++;
+		};
+	};
+	console.log(tournamentTreefirstroundcount);
+	
+
+	
+	
+//	var matchplan = "<div id='game1'>"+ 
+//	$("#tournamentMatches").append(playerTableCode);
 };
 
 $( document ).ready(function() {
@@ -150,8 +207,11 @@ $( document ).ready(function() {
     	
    		//console.log(nameEinzel +"  "+vornameEinzel+" "+vereinEinzel);
    	});
-   	$("#getJson").click(function(){
-   		console.log(playerDataforTree);
+   	$("#startTournament").click(function(){
+   	//	console.log(playerDataforTree);
+   		activaTab('matches');
+   		startTournament();
+   		
    	});
 
 
