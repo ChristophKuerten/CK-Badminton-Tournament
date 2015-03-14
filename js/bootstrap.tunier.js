@@ -7,6 +7,9 @@ var randomNumber;
 var startedplayer = 0;
 var setzliste = [];
 var setzlisterLaenge = 1;
+var turnier;
+var gameCount;
+var roundCount;
 function calculateProgress (valueProgressAdd){
 //	console.log("bin in der function "+ valueProgressAdd+ " "+ valueProgressOld);
 	valueProgressOld = $("#progressTunier").attr("aria-valuenow");
@@ -36,10 +39,7 @@ function calculatePlayer (factorplayer){
 
 };
 function fillSinglePlayerlist(name,vorname,verein){
-//	tablebegin = "<table class='table'><thead><tr><th>#</th><th>First Name</th><th>Last Name</th><th>Club</th></tr></thead><tbody >";
-//	tableclose = "</tbody></table>"
 	tableClass = "";
-	//console.log(playerTableCode);
 	if (playercount%2 == 0){
     	tableClass ="active";
     }
@@ -52,77 +52,113 @@ function fillSinglePlayerlist(name,vorname,verein){
 	);
     
 };
-
 function activaTab(tab){
     $('.nav-tabs a[href="#' + tab + '"]').tab('show');
 };
-
-function startTournament(){
+function startdoppelko(){
 	var i = 0;
 	var z = 0;
+	var tTScount = 4;
+	var tTScount2 = 0;
+	var tournamentTreeSystem = 0;
+	var newjsonadd = {};
+	var gRoundCount = 1;
+	var vRoundCount = 1;
+	var aRoundCount = 0;
+	var freilose = 0;
+	var roundTournament = "round";
 	while (setzlisterLaenge < startedplayer){
 		createsetlist(i,z);
-//		console.log(setzliste);
 		setzlisterLaenge = setzliste.length;
 	}
-	console.log(setzliste);
 	loopplayer = startedplayer + 1;
-	tournamentTreefirstroundcount = Math.round(startedplayer/2);
-	if (playercount%2 == 0){
-		console.log("gerade SpielerAnzalh "+startedplayer);
-		while (i < startedplayer){
+	while (tournamentTreeSystem == 0){
+		tTScount2 = tTScount * 2
+		if (startedplayer <= 4){
+			tournamentTreeSystem = 4;
+			tournamentTreeSystem = tTScount2
+		}else if (startedplayer > tTScount && startedplayer <= tTScount2){
+			tournamentTreeSystem = tTScount2
+			gRoundCount = gRoundCount +1;
+
+		}else{
+			tTScount = tTScount2;
+		}
+	}
+	tournamentCounter = tournamentTreeSystem;
+	while (tournamentCounter != 4){
+		tournamentCounter = tournamentCounter / 2
+		gRoundCount = gRoundCount +1;
+		vRoundCount = vRoundCount +2;
+	}
+	freilose = tournamentTreeSystem - startedplayer;
+	aRoundCount = gRoundCount + vRoundCount +1;
+	while (aRoundCount != 0){
+		if (aRoundCount == gRoundCount + vRoundCount + 1){
+			var tourRound = roundTournament + z;
+			newjsonadd[tourRound] = [];
+			$.extend(true, playerDataforTree, newjsonadd);
+			z = z +1;
+			aRoundCount = aRoundCount-1;	
+		}
+		else if (aRoundCount > vRoundCount){
+			var tourRound = roundTournament + "G"+ z;
+			newjsonadd[tourRound] = [];
+			$.extend(true, playerDataforTree, newjsonadd);
+			z = z +1;
+			aRoundCount = aRoundCount-1;	
+		}else{
+			var looserRound = z - gRoundCount;
+			var tourRound = roundTournament + "V"+ looserRound;
+			newjsonadd[tourRound] = [];
+			$.extend(true, playerDataforTree, newjsonadd);
+			z = z + 1;
+			aRoundCount = aRoundCount-1;	
+		}
+	}
+	console.log(playerDataforTree);
+	var gameNumber = 0;
+	while (i < startedplayer){
+		gameNumber = gameNumber + 1;
+		var PlayerOneid;
+		var PlayerTwoid;
+		if (freilose != 0){
+			var setlistplayerOne = setzliste[i] -1;
+			var playerofarrayOne = playerDataforTree.player[setlistplayerOne];
+			playerTableCode ="<div class='game game"+gameNumber+"'><p>"+playerofarrayOne.name+", "+playerofarrayOne.vorname+ " vs. Freilos </p><input type='text' name='gamebox"+gameNumber+"Set1Player1' id='game"+gameNumber+"Set1Player1' />  vs. <input type='text' name='gamebox"+gameNumber+"Set1Player2' id='game"+gameNumber+"Set1Player2' /><br /><input type='text' name='gamebox"+gameNumber+"Set2Player1' id='game"+gameNumber+"Set2Player1' />  vs. <input type='text' name='gamebox"+gameNumber+"Set2Player2' id='game"+gameNumber+"Set2Player2' /><br /><input type='text' name='gamebox"+gameNumber+"Set3Player1' id='game"+gameNumber+"Set3Player1' />  vs. <input type='text' name='gamebox"+gameNumber+"Set3Player2' id='game"+gameNumber+"Set3Player2' /><br /><button type='button' class='btn btn-default gameButton' id='gameButton"+gameNumber+"' onclick='inserResults(this)'>Enter Result</button><br /></div>";
+			$("#tournamentMatches").append(playerTableCode);
+			PlayerOneid = playerofarrayOne.id;
+			PlayerTwoid = "Freilos";
+			freilose = freilose - 1;
+		}else{
 			var setlistplayerOne = setzliste[i] -1;
 			var setlistplayerTwo = setzliste[i+1] -1;
-		//	console.log (setlistplayerOne);
 			var playerofarrayOne = playerDataforTree.player[setlistplayerOne];
 			var playerofarrayTwo = playerDataforTree.player[setlistplayerTwo];
-		//	console.log (playerofarrayOne.name);
-			playerTableCode ="<p>"+playerofarrayOne.name+", "+playerofarrayOne.vorname+ " vs. "+playerofarrayTwo.name+", "+playerofarrayTwo.vorname+"</p>";
+			playerTableCode ="<div class='game game"+gameNumber+"'><p>"+playerofarrayOne.name+", "+playerofarrayOne.vorname+ " vs. "+ playerofarrayTwo.name+", "+playerofarrayTwo.vorname+"</p><input type='text' name='gamebox"+gameNumber+"Set1Player1' id='game"+gameNumber+"Set1Player1' />  vs. <input type='text' name='gamebox"+gameNumber+"Set1Player2' id='game"+gameNumber+"Set1Player2' /><br /><input type='text' name='gamebox"+gameNumber+"Set2Player1' id='game"+gameNumber+"Set2Player1' />  vs. <input type='text' name='gamebox"+gameNumber+"Set2Player2' id='game"+gameNumber+"Set2Player2' /><br /><input type='text' name='gamebox"+gameNumber+"Set3Player1' id='game"+gameNumber+"Set3Player1' />  vs. <input type='text' name='gamebox"+gameNumber+"Set3Player2' id='game"+gameNumber+"Set3Player2' /><br /><button type='button' class='btn btn-default gameButton' id='gameButton"+gameNumber+"' onclick='inserResults(this)'>Enter Result</button><br /></div>";
 			$("#tournamentMatches").append(playerTableCode);
-
-
-
-
-	//		console.log (playerofarray.name);
-			i=i+2;
-		};
-	}else {
-		console.log("ungerade SpielerAnzalh "+startedplayer);
-		while (i < startedplayer){
-			var setlistplayer = setzliste[i];
-			var playerofarray = playerDataforTree.player[setlistplayer];
-			var playerofarray = (playerDataforTree.player[i]);
-
-
-
-			//console.log (playerofarray.name);
-			i++;
-		};
-	};
-//	console.log(tournamentTreefirstroundcount);
-	
-
-	
-	
+			PlayerOneid = playerofarrayOne.id;
+			PlayerTwoid = playerofarrayTwo.id;
+			i=i+1;
+		}
+		playerDataforTree.round0.push(
+    		{id: gameNumber, PlayerOne: PlayerOneid ,PlayerTwo: PlayerTwoid, SetOne: "",SetTwo: "", SetThree: "", Winner:""}
+		);
+		i = i + 1;
+	}
+	gameNumber = 0;
 
 };
 function createsetlist(i,z){
 	while (i < startedplayer){
 		randomNumber= Math.random();
 		var player = Math.round(randomNumber * (startedplayer-1)+1);
-	//	console.log("Spieler: "+player);
 		z = 0;
-	//	console.log("Z1: "+z);
 		while (z < startedplayer){
 			var zControl = setzliste[z];
 			var zControlTest = $.isNumeric(zControl);
-		//	console.log(zControlTest);
-		// 	console.log("while: "+ i +" for: "+z+" Player: "+player +" with zContorl: "+zControl);
-		//	console.log("Value in Array: "+ zControl + " = Next Value: " + player);
 		 	if (zControl == player){
-		// 		console.log("Die nummer gibt es schon: " + player);
 		 		z = startedplayer;
-
 		 	}else if (zControlTest == true){
 		 		z++;
 		 	}else{
@@ -131,10 +167,48 @@ function createsetlist(i,z){
 		 		z = startedplayer
 		 	}
 		}
-
 		i++;
 	}
 };
+function inserResults(button){
+	var buttonclicked = $(button).attr("id");
+	var a = 0;
+	var b = 1;
+	var resultOfGame = 0;
+	var setOne;
+	var setTwo;
+	var setThree;
+	var winner;
+	var PlayerOne;
+	var PlayerTwo;
+	a = buttonclicked.length;
+	resultOfGame = +buttonclicked.substring(10, a);
+	while (b < 4){
+		var playsetOne = '#game'+resultOfGame+'Set'+b+'Player1';
+		var playsetTwo = '#game'+resultOfGame+'Set'+b+'Player2';
+		PlayerOne = $(playsetOne).val();
+		PlayerTwo = $(playsetTwo).val();
+		if (b = 1){
+			setOne = PlayerOne+ ":"+ PlayerTwo;
+		}else if (b == 2){
+			setTwo = PlayerOne+ ":"+ PlayerTwo;
+		}else if (b == 3){
+			setThree = PlayerOne+ ":"+ PlayerTwo;
+		}
+		console.log(setOne+" / "+setTwo+" / "+setThree);
+		b = b +1;
+	}
+	var playset = '#game1Set1Player1';
+//	PlayerOne = $(playset).val();
+//	PlayerTwo = $("'#game"+resultOfGame+"Set1Player2'").val();
+//	setOne = PlayerOne+ ":"+ PlayerTwo;
+//	console.log(playset);
+//game"+gameNumber+"Set1Player1
+
+//	console.log(buttonclicked);
+//	console.log("Game: "+resultOfGame);
+};
+
 
 $( document ).ready(function() {
 // =============================== Test der Setzlisten Schleife ==========================================================
@@ -142,8 +216,6 @@ $( document ).ready(function() {
 
 
 // =============================== Test der Setzlisten Schleife ==========================================================
-
-
 	playercount = 0;
 //    console.log( "ready!" );
     $("#secondGeschlecht").prop("disabled", true);
@@ -207,29 +279,24 @@ $( document ).ready(function() {
    	$( "#fifthSubmit" ).click(function() {
     	var disziplin = $("input:radio[name='optionsDisziplin']:checked").val();
     	var geschlecht = $("input:radio[name='optionsGeschlecht']:checked").val();
-    	var tunier = $("input:radio[name='optionsTunierart']:checked").val();
+    	turnier = $("input:radio[name='optionsTunierart']:checked").val();
     	spielerAnzahl = $('#anzahlSpielerField').val();
-    	$('#tunierOptions').text(disziplin +"  "+geschlecht+" "+tunier+" "+spielerAnzahl);
+    	$('#tunierOptions').text(disziplin +"  "+geschlecht+" "+turnier+" "+spielerAnzahl);
 		activaTab('spieler');
 		if (disziplin != "einzel") {
 			if (disziplin == "doppel") {
-				//console.log("Doppel");
 		        $("#mixedGame").hide();
 		        $("#singleGame").hide();		        
 		    } else {
-		    	//console.log("Mixed");
 		    	$("#doubleGame").hide();
 		        $("#singleGame").hide();
 		    }	   
 		} else {
-			//console.log("Einzel");
 		    $("#mixedGame").hide();
 		    $("#doubleGame").hide();
 		}
-
    	});
    	$("#addeinzelPlayer").click(function(){
-   		//console.log("klappt")
    		var factorplayer=100/spielerAnzahl;
    		calculatePlayer(factorplayer);
    		var nameEinzel = $('#nameEinzel').val();
@@ -239,16 +306,23 @@ $( document ).ready(function() {
     		fillSinglePlayerlist(nameEinzel, vornameEinzel, vereinEinzel);
     	};
     	startedplayer = startedplayer + 1;
-    	
-   		//console.log(nameEinzel +"  "+vornameEinzel+" "+vereinEinzel);
    	});
    	$("#startTournament").click(function(){
-   	//	console.log(playerDataforTree);
    		activaTab('matches');
-   		startTournament();
+   		if (turnier == "ko"){
+   			console.log(turnier+ " is not supported!")
+   		}else if(turnier == "doppelko"){
+   			startdoppelko();
+   		}else if(turnier == "liga"){
+   			console.log(turnier+ " is not supported!")
+   		}else if(turnier == "schweitzer"){
+   			console.log(turnier+ " is not supported!")
+   		}else{
+   			console.log(turnier+ " is not supported!")
+   		}
+   		
    		
    	});
 
 
 });
-

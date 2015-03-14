@@ -36,3 +36,11 @@ body {
   margin-right: auto;
   margin-left: auto;
 }
+
+#tournamentMatches > input{
+  width: 4em;
+}
+
+.game{
+  padding-bottom: 1em;
+}
